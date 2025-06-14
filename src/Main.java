@@ -9,33 +9,6 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    /*@ requires g != null && g.hasEulerianCycle();
-      @ ensures \result != null && !\result.isEmpty();
-      @ ensures \result.get(0).equals(\result.get(\result.size()-1));
-      @*/
-    public static List<String> findEulerianCycleFleury(Graph g) {
-        return new FleuryAlgorithm(g).findEulerianCycle();
-    }
-
-    /*@ requires g != null && g.hasEulerianCycle();
-      @ ensures \result != null && !\result.isEmpty();
-      @ ensures \result.get(0).equals(\result.get(\result.size()-1));
-      @*/
-    public static List<String> findEulerianCycleHierholzer(Graph g) {
-        return new HierholzerAlgorithm(g).findEulerianCycle();
-    }
-
-    /*@ requires scanner != null;
-      @ ensures \result >= 1 && \result <= 4;
-      @*/
-    private static int getMenuOption(Scanner scanner) {
-        int option;
-        do {
-            option = scanner.nextInt();
-        } while (option < 1 || option > 4);
-        return option;
-    }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Graph g = new Graph();

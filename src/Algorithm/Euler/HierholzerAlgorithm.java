@@ -8,22 +8,16 @@ public class HierholzerAlgorithm {
     private int remainingEdges;
     private final Map<String, Integer> edgeCounts;
 
-    //@ public invariant workingGraph != null;
-    //@ public invariant edgeCounts != null;
-    //@ public invariant remainingEdges >= 0;
-    //@ public invariant (\forall String v; edgeCounts.containsKey(v); edgeCounts.get(v) >= 0);
 
-    /*@ requires graph != null;
-      @ ensures workingGraph != null && remainingEdges >= 0;
-      @*/
+    //@ requires graph != null;
+    //@ ensures workingGraph != null && remainingEdges >= 0;
     public HierholzerAlgorithm(Graph graph) {
         this.workingGraph = graph.clone();
         this.edgeCounts = new HashMap<String, Integer>();
         this.remainingEdges = calculateEdges();
     }
 
-    /*@ ensures \result == (\sum String v; edgeCounts.containsKey(v); edgeCounts.get(v)) / 2;
-      @*/
+    //@ ensures \result == (\sum String v; edgeCounts.containsKey(v); edgeCounts.get(v)) / 2;
     private int calculateEdges() {
         int count = 0;
         for (String vertex : workingGraph.getVertices()) {
@@ -34,12 +28,11 @@ public class HierholzerAlgorithm {
         return count / 2;
     }
 
-    /*@ requires u != null && v != null;
-      @ requires workingGraph.getAdjacentVertices(u).contains(v);
-      @ ensures edgeCounts.get(u) == \old(edgeCounts.get(u)) - 1;
-      @ ensures edgeCounts.get(v) == \old(edgeCounts.get(v)) - 1;
-      @ ensures remainingEdges == \old(remainingEdges) - 1;
-      @*/
+    //@ requires u != null && v != null;
+    //@ requires workingGraph.getAdjacentVertices(u).contains(v);
+    //@ ensures edgeCounts.get(u) == \old(edgeCounts.get(u)) - 1;
+    //@ ensures edgeCounts.get(v) == \old(edgeCounts.get(v)) - 1;
+    //@ ensures remainingEdges == \old(remainingEdges) - 1;
     private void removeEdge(String u, String v) {
         workingGraph.removeEdge(u, v);
         edgeCounts.put(u, edgeCounts.get(u) - 1);
@@ -47,11 +40,9 @@ public class HierholzerAlgorithm {
         remainingEdges--;
     }
 
-    /*@ ensures \result != null;
-      @ ensures workingGraph.hasEulerianCycle() && remainingEdges > 0 ==>
-      @         !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
-      @ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
-      @*/
+    //@ ensures workingGraph.hasEulerianCycle() && remainingEdges > 0 ==>
+    //@         !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
+    //@ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
     public List<String> findEulerianCycle() {
         List<String> cycle = new ArrayList<String>();
 

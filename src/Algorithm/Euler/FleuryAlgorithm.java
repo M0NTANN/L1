@@ -1,23 +1,16 @@
 package Algorithm.Euler;
-
 import Algorithm.Graph;
 import java.util.*;
 
 public class FleuryAlgorithm {
-    private final Graph workingGraph;
+    public final Graph workingGraph;
     private final Map<String, List<String>> adj;
     private final Map<String, Integer> edgeCounts;
     private int totalEdges;
 
-    //@ public invariant workingGraph != null;
-    //@ public invariant adj != null;
-    //@ public invariant edgeCounts != null;
-    //@ public invariant totalEdges >= 0;
-    //@ public invariant (\forall String v; edgeCounts.containsKey(v); edgeCounts.get(v) >= 0);
 
-    /*@ requires graph != null;
-      @ ensures workingGraph != null && totalEdges >= 0;
-      @*/
+    //@ requires graph != null;
+    //@ ensures workingGraph != null && totalEdges >= 0;
     public FleuryAlgorithm(Graph graph) {
         this.workingGraph = graph.clone();
         this.adj = new HashMap<String, List<String>>();
@@ -28,8 +21,7 @@ public class FleuryAlgorithm {
         this.totalEdges = calculateEdges();
     }
 
-    /*@ ensures \result == (\sum String v; edgeCounts.containsKey(v); edgeCounts.get(v)) / 2;
-      @*/
+    //@ ensures \result == (\sum String v; edgeCounts.containsKey(v); edgeCounts.get(v)) / 2;
     private int calculateEdges() {
         int count = 0;
         for (Map.Entry<String, List<String>> entry : adj.entrySet()) {
@@ -39,12 +31,11 @@ public class FleuryAlgorithm {
         return count / 2;
     }
 
-    /*@ requires u != null && v != null;
-      @ requires adj.containsKey(u) && adj.containsKey(v);
-      @ ensures edgeCounts.get(u) == \old(edgeCounts.get(u)) - 1;
-      @ ensures edgeCounts.get(v) == \old(edgeCounts.get(v)) - 1;
-      @ ensures totalEdges == \old(totalEdges) - 1;
-      @*/
+    //@ requires u != null && v != null;
+    //@ requires adj.containsKey(u) && adj.containsKey(v);
+    //@ ensures edgeCounts.get(u) == \old(edgeCounts.get(u)) - 1;
+    //@ ensures edgeCounts.get(v) == \old(edgeCounts.get(v)) - 1;
+    //@ ensures totalEdges == \old(totalEdges) - 1;
     private void removeEdge(String u, String v) {
         adj.get(u).remove(v);
         adj.get(v).remove(u);
@@ -53,12 +44,10 @@ public class FleuryAlgorithm {
         totalEdges--;
     }
 
-    /*@ requires u != null && v != null;
-      @ requires adj.containsKey(u) && adj.containsKey(v);
-      @ requires adj.get(u).contains(v);
-      @ ensures \result == (countReachableVertices(u, new HashSet<String>()) !=
-      @                    \old(countReachableVertices(u, new HashSet<String>())));
-      @*/
+    //@ requires u != null && v != null;
+    //@ requires adj.containsKey(u) && adj.containsKey(v);
+    //@ requires adj.get(u).contains(v);
+    //@ ensures \result == (countReachableVertices(u, new HashSet<String>()) != \old(countReachableVertices(u, new HashSet<String>())));
     private boolean isBridge(String u, String v) {
         if (adj.get(u).size() == 1) {
             return false;
@@ -79,9 +68,8 @@ public class FleuryAlgorithm {
         return countBefore != countAfter;
     }
 
-    /*@ requires start != null && visited != null;
-      @ ensures \result >= 1;
-      @*/
+    //@ requires start != null && visited != null;
+    //@ ensures \result >= 1;
     private int countReachableVertices(String start, Set<String> visited) {
         visited.add(start);
         int count = 1;
@@ -94,11 +82,8 @@ public class FleuryAlgorithm {
         return count;
     }
 
-    /*@ ensures \result != null;
-      @ ensures workingGraph.hasEulerianCycle() && totalEdges > 0 ==>
-      @         !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
-      @ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
-      @*/
+    //@ ensures workingGraph.hasEulerianCycle() && totalEdges > 0 ==> !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
+    //@ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
     public List<String> findEulerianCycle() {
         List<String> cycle = new ArrayList<String>();
 
