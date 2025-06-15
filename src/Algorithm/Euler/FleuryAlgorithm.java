@@ -55,7 +55,7 @@ public class FleuryAlgorithm {
 
         removeEdge(u, v);
         Set<String> visited = new HashSet<String>();
-        int countBefore = countReachableVertices(u, visited);
+        int countBefore = countReachableVerticesIterative(u);
         adj.get(u).add(v);
         adj.get(v).add(u);
         edgeCounts.put(u, edgeCounts.get(u) + 1);
@@ -63,20 +63,29 @@ public class FleuryAlgorithm {
         totalEdges++;
 
         visited = new HashSet<String>();
-        int countAfter = countReachableVertices(u, visited);
+        int countAfter = countReachableVerticesIterative(u);
 
         return countBefore != countAfter;
     }
 
     //@ requires start != null && visited != null;
     //@ ensures \result >= 1;
-    private int countReachableVertices(String start, Set<String> visited) {
-        visited.add(start);
-        int count = 1;
+    private int countReachableVerticesIterative(String start) {
+        Set<String> visited = new HashSet<>();
+        Deque<String> stack = new ArrayDeque<>();
+        stack.push(start);
+        int count = 0;
 
-        for (String neighbor : adj.get(start)) {
-            if (!visited.contains(neighbor)) {
-                count += countReachableVertices(neighbor, visited);
+        while (!stack.isEmpty()) {
+            String vertex = stack.pop();
+            if (!visited.contains(vertex)) {
+                visited.add(vertex);
+                count++;
+                for (String neighbor : adj.get(vertex)) {
+                    if (!visited.contains(neighbor)) {
+                        stack.push(neighbor);
+                    }
+                }
             }
         }
         return count;
