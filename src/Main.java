@@ -13,9 +13,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Graph g = new Graph();
 
-        long startTime;
-        long endTime;
-        long timeElapsed;
 
 
         while (true) {
@@ -37,9 +34,9 @@ public class Main {
                     System.out.println("Введите вторую вершину ребра: ");
                     String v = scanner.nextLine();
                     g.addEdge(u, v);*/
-                    for (int i = 0; i<=10; i++){
+                    for (int i = 0; i<=80000; i++){
                         int last = i+1;
-                        if (last == 11)
+                        if (last == 80001)
                             last = 0;
                         g.addEdge(Integer.toString(i), Integer.toString(last));
                     }
@@ -58,18 +55,10 @@ public class Main {
                     List<String> eulerPath;
                     switch (option2) {
                         case 1:
-                            startTime = System.nanoTime();
                             eulerPath = new FleuryAlgorithm(g).findEulerianCycle();
-                            endTime = System.nanoTime();
-                            timeElapsed = endTime - startTime;
-                            System.out.println(timeElapsed);
                             break;
                         case 2:
-                            startTime = System.nanoTime();
                             eulerPath = new HierholzerAlgorithm(g).findEulerianCycle();
-                            endTime = System.nanoTime();
-                            timeElapsed = endTime - startTime;
-                            System.out.println(timeElapsed);
                             break;
                         default:
                             System.out.println("Неверный выбор");
