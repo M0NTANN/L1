@@ -13,7 +13,7 @@ public class HierholzerAlgorithm {
     //@ ensures workingGraph != null && remainingEdges >= 0;
     public HierholzerAlgorithm(Graph graph) {
         this.workingGraph = graph.clone();
-        this.edgeCounts = new HashMap<String, Integer>();
+        this.edgeCounts = new HashMap<>();
         this.remainingEdges = calculateEdges();
     }
 
@@ -44,26 +44,23 @@ public class HierholzerAlgorithm {
     //@         !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
     //@ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
     public List<String> findEulerianCycle() {
-        List<String> cycle = new ArrayList<String>();
+        List<String> cycle = new ArrayList<>();
 
-        if (!workingGraph.hasEulerianCycle()) {
+        if (workingGraph.hasEulerianCycle()) {
             return cycle;
         }
 
-        if (remainingEdges == 0) {
-            return cycle;
-        }
-
-        Stack<String> stack = new Stack<String>();
-        List<String> path = new ArrayList<String>();
-        String startVertex = workingGraph.getVertices().get(0);
+        Stack<String> stack = new Stack<>();
+        List<String> path = new ArrayList<>();
+        String startVertex = workingGraph.getVertices().getFirst();
         stack.push(startVertex);
 
         while (!stack.isEmpty()) {
             String current = stack.peek();
+            List<String> neighbors = workingGraph.getAdjacentVertices(current);
 
-            if (edgeCounts.get(current) > 0) {
-                String next = workingGraph.getAdjacentVertices(current).get(0);
+            if (!neighbors.isEmpty()) {
+                String next = neighbors.getFirst();
                 stack.push(next);
                 removeEdge(current, next);
             } else {
@@ -71,8 +68,8 @@ public class HierholzerAlgorithm {
             }
         }
 
-        if (path.isEmpty() || !path.get(0).equals(path.get(path.size()-1)) || remainingEdges != 0) {
-            return new ArrayList<String>();
+        if (path.isEmpty() || !path.getFirst().equals(path.getLast()) || remainingEdges != 0) {
+            return new ArrayList<>();
         }
 
         Collections.reverse(path);

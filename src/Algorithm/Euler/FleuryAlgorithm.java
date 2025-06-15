@@ -13,11 +13,11 @@ public class FleuryAlgorithm {
     //@ ensures workingGraph != null && totalEdges >= 0;
     public FleuryAlgorithm(Graph graph) {
         this.workingGraph = graph.clone();
-        this.adj = new HashMap<String, List<String>>();
+        this.adj = new HashMap<>();
         for (String vertex : workingGraph.getVertices()) {
-            adj.put(vertex, new ArrayList<String>(workingGraph.getAdjacentVertices(vertex)));
+            adj.put(vertex, new ArrayList<>(workingGraph.getAdjacentVertices(vertex)));
         }
-        this.edgeCounts = new HashMap<String, Integer>();
+        this.edgeCounts = new HashMap<>();
         this.totalEdges = calculateEdges();
     }
 
@@ -54,7 +54,7 @@ public class FleuryAlgorithm {
         }
 
         removeEdge(u, v);
-        Set<String> visited = new HashSet<String>();
+
         int countBefore = countReachableVerticesIterative(u);
         adj.get(u).add(v);
         adj.get(v).add(u);
@@ -62,7 +62,6 @@ public class FleuryAlgorithm {
         edgeCounts.put(v, edgeCounts.get(v) + 1);
         totalEdges++;
 
-        visited = new HashSet<String>();
         int countAfter = countReachableVerticesIterative(u);
 
         return countBefore != countAfter;
@@ -94,17 +93,14 @@ public class FleuryAlgorithm {
     //@ ensures workingGraph.hasEulerianCycle() && totalEdges > 0 ==> !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
     //@ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
     public List<String> findEulerianCycle() {
-        List<String> cycle = new ArrayList<String>();
+        List<String> cycle = new ArrayList<>();
 
-        if (!workingGraph.hasEulerianCycle()) {
+        if (workingGraph.hasEulerianCycle()) {
             return cycle;
         }
 
-        if (totalEdges == 0) {
-            return cycle;
-        }
 
-        Stack<String> stack = new Stack<String>();
+        Stack<String> stack = new Stack<>();
         String startVertex = adj.keySet().iterator().next();
         stack.push(startVertex);
 
@@ -124,7 +120,7 @@ public class FleuryAlgorithm {
                 }
 
                 if (!foundNonBridge) {
-                    nextVertex = adj.get(current).get(0);
+                    nextVertex = adj.get(current).getFirst();
                 }
 
                 stack.push(nextVertex);
@@ -134,11 +130,11 @@ public class FleuryAlgorithm {
             }
         }
 
-        if (!cycle.isEmpty() && cycle.get(0).equals(cycle.get(cycle.size()-1)) && totalEdges == 0) {
+        if (!cycle.isEmpty() && cycle.getFirst().equals(cycle.getLast()) && totalEdges == 0) {
             Collections.reverse(cycle);
             return cycle;
         }
 
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 }

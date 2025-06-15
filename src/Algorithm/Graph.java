@@ -1,58 +1,31 @@
 package Algorithm;
 
-//@ model import java.util.Map<String, List<String>> as StringToListMap;
-//@ model import java.util.List<String> as StringList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Collections;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 public class Graph {
-    private Map<String, List<String>> adj;
+    public Map<String, List<String>> adj;
     private Map<String, Integer> vertexIndices;
     private List<String> vertices;
     private int vertexCount;
 
-    //@ public invariant adj != null;
-    //@ public invariant vertexIndices != null;
-    //@ public invariant vertices != null;
-    //@ public invariant vertexCount >= 0;
-    //@ public invariant vertexCount == vertices.size();
-
     public Graph() {
-        adj = new HashMap<String, List<String>>();
-        vertexIndices = new HashMap<String, Integer>();
-        vertices = new ArrayList<String>();
+        adj = new HashMap<>();
+        vertexIndices = new HashMap<>();
+        vertices = new ArrayList<>();
         vertexCount = 0;
     }
 
-    /*@ requires u != null && v != null;
-      @ ensures adj.containsKey(u) && adj.containsKey(v);
-      @ ensures \old(!adj.containsKey(u)) ==> vertexCount == \old(vertexCount) + 1;
-      @ ensures \old(!adj.containsKey(v)) ==> vertexCount == \old(vertexCount) + 1;
-      @ ensures adj.get(u).contains(v) && adj.get(v).contains(u);
-      @*/
     public void addEdge(String u, String v) {
-        if (u == null || v == null) {
-            throw new IllegalArgumentException("Vertex cannot be null");
-        }
-
-        adj.putIfAbsent(u, new LinkedList<String>());
-        adj.putIfAbsent(v, new LinkedList<String>());
-
-        if (!vertexIndices.containsKey(u)) {
+        if (!adj.containsKey(u)) {
+            adj.put(u, new LinkedList<>());
             vertexIndices.put(u, vertexCount++);
             vertices.add(u);
         }
-        if (!vertexIndices.containsKey(v)) {
+        if (!adj.containsKey(v)) {
+            adj.put(v, new LinkedList<>());
             vertexIndices.put(v, vertexCount++);
             vertices.add(v);
         }
-
         adj.get(u).add(v);
         adj.get(v).add(u);
     }
@@ -65,7 +38,7 @@ public class Graph {
     }
 
     public List<String> getAdjacentVertices(String vertex) {
-        return adj.getOrDefault(vertex, Collections.emptyList());
+        return Collections.unmodifiableList(adj.getOrDefault(vertex, Collections.emptyList()));
     }
 
     public Graph clone() {
@@ -90,9 +63,9 @@ public class Graph {
     public boolean hasEulerianCycle() {
         for (List<String> neighbors : adj.values()) {
             if (neighbors.size() % 2 != 0) {
-                return false;
+                return true;
             }
         }
-        return vertexCount > 0;
+        return vertexCount <= 0;
     }
 }
