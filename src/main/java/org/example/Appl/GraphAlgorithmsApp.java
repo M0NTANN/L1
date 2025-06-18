@@ -1,7 +1,9 @@
-import Algorithm.Graph;
-import Algorithm.Euler.FleuryAlgorithm;
-import Algorithm.Euler.HierholzerAlgorithm;
-import Algorithm.Hamilton.BackTracking;
+package main.java.org.example.Appl;
+
+import main.java.org.example.Appl.Algorithm.Graph;
+import main.java.org.example.Appl.Algorithm.Euler.FleuryAlgorithm;
+import main.java.org.example.Appl.Algorithm.Euler.HierholzerAlgorithm;
+import main.java.org.example.Appl.Algorithm.Hamilton.BackTracking;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

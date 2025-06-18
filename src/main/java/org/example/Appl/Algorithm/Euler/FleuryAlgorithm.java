@@ -1,5 +1,5 @@
-package Algorithm.Euler;
-import Algorithm.Graph;
+package main.java.org.example.Appl.Algorithm.Euler;
+import main.java.org.example.Appl.Algorithm.Graph;
 import java.util.*;
 
 public class FleuryAlgorithm {

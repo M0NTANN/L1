@@ -1,6 +1,6 @@
-package Algorithm.Euler;
+package main.java.org.example.Appl.Algorithm.Euler;
 
-import Algorithm.Graph;
+import main.java.org.example.Appl.Algorithm.Graph;
 import java.util.*;
 
 public class HierholzerAlgorithm {

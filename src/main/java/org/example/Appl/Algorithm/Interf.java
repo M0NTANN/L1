@@ -1,8 +1,8 @@
-package Algorithm;
+package main.java.org.example.Appl.Algorithm;
 
-import Algorithm.Euler.FleuryAlgorithm;
-import Algorithm.Euler.HierholzerAlgorithm;
-import Algorithm.Hamilton.BackTracking;
+import main.java.org.example.Appl.Algorithm.Euler.FleuryAlgorithm;
+import main.java.org.example.Appl.Algorithm.Euler.HierholzerAlgorithm;
+import main.java.org.example.Appl.Algorithm.Hamilton.BackTracking;
 
 import java.util.List;
 import java.util.Scanner;

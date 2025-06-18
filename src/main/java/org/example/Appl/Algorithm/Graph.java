@@ -1,4 +1,4 @@
-package Algorithm;
+package main.java.org.example.Appl.Algorithm;
 
 import java.util.*;
 

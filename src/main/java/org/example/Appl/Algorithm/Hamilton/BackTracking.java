@@ -1,6 +1,6 @@
-package Algorithm.Hamilton;
+package main.java.org.example.Appl.Algorithm.Hamilton;
 
-import Algorithm.Graph;
+import main.java.org.example.Appl.Algorithm.Graph;
 
 import java.util.*;
 
