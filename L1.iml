@@ -8,8 +8,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="L1-7.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="javafx" level="project" />
     <orderEntry type="library" name="junit-3.8.1" level="project" />
     <orderEntry type="library" name="graph-algorithms-2.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="proguard" level="project" />
   </component>
 </module>
