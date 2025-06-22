@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="proguard">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/proguard-7.7.0/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/Downloads/proguard-7.7.0/lib" recursive="false" />
+  </library>
+</component>
