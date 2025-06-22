@@ -1,7 +1,7 @@
-package main.java.org.example.Appl.Algorithm.Hamilton;
+package org.example.Appl.Algorithm.Hamilton;
 
-import main.java.org.example.Appl.Algorithm.CycleSolver;
-import main.java.org.example.Appl.Algorithm.Graph;
+import org.example.Appl.Algorithm.CycleSolver;
+import org.example.Appl.Algorithm.Graph;
 
 import java.util.*;
 

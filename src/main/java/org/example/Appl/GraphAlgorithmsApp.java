@@ -1,4 +1,4 @@
-package main.java.org.example.Appl;
+package org.example.Appl;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -6,9 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import main.java.org.example.Appl.Algorithm.Graph;
-import main.java.org.example.Appl.Algorithm.CycleSolver;
-import main.java.org.example.Appl.Algorithm.CycleSolverFactory;
+import org.example.Appl.Algorithm.Graph;
+import org.example.Appl.Algorithm.CycleSolver;
+import org.example.Appl.Algorithm.CycleSolverFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,8 +1,8 @@
-package main.java.org.example.Appl.Algorithm;
+package org.example.Appl.Algorithm;
 
-import main.java.org.example.Appl.Algorithm.Euler.FleuryAlgorithm;
-import main.java.org.example.Appl.Algorithm.Euler.HierholzerAlgorithm;
-import main.java.org.example.Appl.Algorithm.Hamilton.BackTracking;
+import org.example.Appl.Algorithm.Euler.FleuryAlgorithm;
+import org.example.Appl.Algorithm.Euler.HierholzerAlgorithm;
+import org.example.Appl.Algorithm.Hamilton.BackTracking;
 
 public class CycleSolverFactory {
     public static CycleSolver createSolver(String type, Graph graph) {

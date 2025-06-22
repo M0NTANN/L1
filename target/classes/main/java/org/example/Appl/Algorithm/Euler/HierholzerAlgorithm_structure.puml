@@ -1,0 +1,188 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "main.java.org.example.Appl.Algorithm.Euler.HierholzerAlgorithm",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_3254818 { 
+   	label=java
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_582852328 { 
+   	label=org
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   BackTracking629480857[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)BackTracking</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cycleFound: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   path: List&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   visited: Set&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   workingGraph: Graph [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ findCycle(): List&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- solve(currentVertex: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+FleuryAlgorithm1384888788[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FleuryAlgorithm</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   adj: Map&lt;String, List&lt;String&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   edgeCounts: Map&lt;String, Integer&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   totalEdges: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   workingGraph: Graph [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- calculateEdges(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- countReachableVertices(start: String): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findCycle(): List&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- isBridge(u: String, v: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- removeEdge(u: String, v: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Graph1076460783[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Graph</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   adj: Map&lt;String, List&lt;String&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   vertexCount: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   vertexIndices: Map&lt;String, Integer&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   vertices: List&lt;String&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addEdge(u: String, v: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ clone(): Graph</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAdjacentVertices(vertex: String): List&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeEdge(u: String, v: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HierholzerAlgorithm1384888788[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HierholzerAlgorithm</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   edgeCounts: Map&lt;String, Integer&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   remainingEdges: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   workingGraph: Graph [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- calculateEdges(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findCycle(): List&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- removeEdge(u: String, v: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+BackTracking629480857 -> Graph1076460783[label="workingGraph
+[0..1]"];
+FleuryAlgorithm1384888788 -> Graph1076460783[label="workingGraph
+[0..1]"];
+HierholzerAlgorithm1384888788 -> BackTracking629480857[arrowhead=none];
+HierholzerAlgorithm1384888788 -> FleuryAlgorithm1384888788[arrowhead=none];
+HierholzerAlgorithm1384888788 -> Graph1076460783[label="workingGraph
+[0..1]"];
+    
+}
+@enduml

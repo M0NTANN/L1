@@ -1,4 +1,4 @@
-package main.java.org.example.Appl;
+package org.example.Appl;
 
 
 public class Main {

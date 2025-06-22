@@ -1,7 +1,7 @@
-package main.java.org.example.Appl.Algorithm.Euler;
+package org.example.Appl.Algorithm.Euler;
 
-import main.java.org.example.Appl.Algorithm.CycleSolver;
-import main.java.org.example.Appl.Algorithm.Graph;
+import org.example.Appl.Algorithm.CycleSolver;
+import org.example.Appl.Algorithm.Graph;
 import java.util.*;
 
 public class HierholzerAlgorithm implements CycleSolver {
@@ -54,7 +54,7 @@ public class HierholzerAlgorithm implements CycleSolver {
 
         Stack<String> stack = new Stack<>();
         List<String> path = new ArrayList<>();
-        String startVertex = workingGraph.getVertices().getFirst();
+        String startVertex = workingGraph.getVertices().get(0);
         stack.push(startVertex);
 
         while (!stack.isEmpty()) {
@@ -62,7 +62,7 @@ public class HierholzerAlgorithm implements CycleSolver {
             List<String> neighbors = workingGraph.getAdjacentVertices(current);
 
             if (!neighbors.isEmpty()) {
-                String next = neighbors.getFirst();
+                String next = neighbors.get(0);
                 stack.push(next);
                 removeEdge(current, next);
             } else {
@@ -70,7 +70,7 @@ public class HierholzerAlgorithm implements CycleSolver {
             }
         }
 
-        if (path.isEmpty() || !path.getFirst().equals(path.getLast()) || remainingEdges != 0) {
+        if (path.isEmpty() || !path.get(0).equals(path.get(path.size()-1)) || remainingEdges != 0) {
             return new ArrayList<>();
         }
 

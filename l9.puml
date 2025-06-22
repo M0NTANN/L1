@@ -1,0 +1,62 @@
+@startuml
+title Алгоритмы поиска циклов (Factory Method)
+
+interface CycleSolver {
+    +List<String> findCycle()
+}
+
+class BackTrackingSolver implements CycleSolver {
+    -Graph workingGraph
+    -List<String> path
+    -Set<String> visited
+    -boolean cycleFound
+    +findCycle()
+}
+
+class FleurySolver implements CycleSolver {
+    -Graph workingGraph
+    -Map<String, List<String>> adj
+    -Map<String, Integer> edgeCounts
+    -int totalEdges
+    +findCycle()
+}
+
+class HierholzerAlgorithm {
+    -Graph workingGraph
+    -Map<String, Integer> edgeCounts
+    -int remainingEdges
+    +findEulerianCycle()
+}
+
+class CycleSolverFactory {
+    +createSolver(type: String, graph: Graph): CycleSolver
+}
+
+class Graph {
+    -Map<String, List<String>> adjacencyList
+    +addEdge(u: String, v: String)
+    +getVertices(): List<String>
+    +getAdjacentVertices(vertex: String): List<String>
+    +getVertexCount(): int
+    +hasEulerianCycle(): boolean
+    +clone(): Graph
+}
+
+interface Application
+
+class GraphAlgorithmsApp extends Application {
+    -Graph graph
+    -TextArea outputArea
+    +start(Stage): void
+}
+
+CycleSolverFactory --> CycleSolver : <<create>>
+BackTrackingSolver --> CycleSolver
+FleurySolver --> CycleSolver
+GraphAlgorithmsApp --> CycleSolverFactory
+GraphAlgorithmsApp --> Graph
+BackTrackingSolver --> Graph
+FleurySolver --> Graph
+HierholzerAlgorithm --> Graph
+
+@enduml

@@ -1,7 +1,7 @@
-package main.java.org.example.Appl.Algorithm.Euler;
+package org.example.Appl.Algorithm.Euler;
 
-import main.java.org.example.Appl.Algorithm.CycleSolver;
-import main.java.org.example.Appl.Algorithm.Graph;
+import org.example.Appl.Algorithm.CycleSolver;
+import org.example.Appl.Algorithm.Graph;
 
 import java.util.*;
 
@@ -87,7 +87,7 @@ public class FleuryAlgorithm implements CycleSolver {
                         break;
                     }
                 }
-                if (next == null) next = adj.get(current).getFirst();
+                if (next == null) next = adj.get(current).get(0);
                 stack.push(next);
                 removeEdge(current, next);
             } else {
