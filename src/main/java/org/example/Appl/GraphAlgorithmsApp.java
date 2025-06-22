@@ -1,15 +1,14 @@
 package main.java.org.example.Appl;
 
-import main.java.org.example.Appl.Algorithm.Graph;
-import main.java.org.example.Appl.Algorithm.Euler.FleuryAlgorithm;
-import main.java.org.example.Appl.Algorithm.Euler.HierholzerAlgorithm;
-import main.java.org.example.Appl.Algorithm.Hamilton.BackTracking;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import main.java.org.example.Appl.Algorithm.Graph;
+import main.java.org.example.Appl.Algorithm.CycleSolver;
+import main.java.org.example.Appl.Algorithm.CycleSolverFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,37 +17,24 @@ public class GraphAlgorithmsApp extends Application {
     private Graph graph = new Graph();
     private TextArea outputArea = new TextArea();
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Алгоритмы поиска циклов в графе");
 
-        // Создаем вкладки
         TabPane tabPane = new TabPane();
-
-        // Вкладка для добавления вершин
-        Tab addVertexTab = new Tab("Добавление ребер", createAddEdgeTab());
-        addVertexTab.setClosable(false);
-
-        // Вкладка для Эйлеровых циклов
+        Tab addEdgeTab = new Tab("Добавление ребер", createAddEdgeTab());
+        addEdgeTab.setClosable(false);
         Tab eulerTab = new Tab("Эйлеровы циклы", createEulerTab());
         eulerTab.setClosable(false);
-
-        // Вкладка для Гамильтоновых циклов
         Tab hamiltonTab = new Tab("Гамильтоновы циклы", createHamiltonTab());
         hamiltonTab.setClosable(false);
 
-        tabPane.getTabs().addAll(addVertexTab, eulerTab, hamiltonTab);
+        tabPane.getTabs().addAll(addEdgeTab, eulerTab, hamiltonTab);
 
-        // Область вывода результатов
         outputArea.setEditable(false);
         outputArea.setWrapText(true);
         outputArea.setPrefHeight(150);
 
-        // Основной layout
         VBox mainLayout = new VBox(10);
         mainLayout.setPadding(new Insets(10));
         mainLayout.getChildren().addAll(tabPane, outputArea);
@@ -65,7 +51,6 @@ public class GraphAlgorithmsApp extends Application {
         addButton.setOnAction(e -> {
             String u = vertex1Field.getText().trim();
             String v = vertex2Field.getText().trim();
-
             if (!u.isEmpty() && !v.isEmpty()) {
                 graph.addEdge(u, v);
                 outputArea.appendText("Добавлено ребро: " + u + " - " + v + "\n");
@@ -114,21 +99,28 @@ public class GraphAlgorithmsApp extends Application {
         Button findButton = new Button("Найти Эйлеров цикл");
         findButton.setOnAction(e -> {
             new Thread(() -> {
-                List<String> eulerPath;
+
+                List<String> cycle;
+
                 if (fleuryButton.isSelected()) {
                     outputArea.appendText("Запуск алгоритма Флёри...\n");
-                    eulerPath = new FleuryAlgorithm(graph).findEulerianCycle();
+                    String algoType = "Fluery";
+                    CycleSolver solver = CycleSolverFactory.createSolver(algoType, graph);
+                    cycle = solver.findCycle();
                 } else {
                     outputArea.appendText("Запуск алгоритма Хирхольцера...\n");
-                    eulerPath = new HierholzerAlgorithm(graph).findEulerianCycle();
+                    String algoType = "Hierholzer";
+                    CycleSolver solver = CycleSolverFactory.createSolver(algoType, graph);
+                    cycle = solver.findCycle();
                 }
 
+
                 javafx.application.Platform.runLater(() -> {
-                    if (eulerPath.isEmpty()) {
+                    if (cycle.isEmpty()) {
                         outputArea.appendText("Эйлеров цикл не существует\n");
                     } else {
                         outputArea.appendText("Эйлеров цикл: " +
-                                String.join(" -> ", eulerPath) + "\n");
+                                String.join(" -> ", cycle) + "\n");
                     }
                 });
             }).start();
@@ -138,7 +130,8 @@ public class GraphAlgorithmsApp extends Application {
         layout.setPadding(new Insets(10));
         layout.getChildren().addAll(
                 new Label("Выберите алгоритм:"),
-                fleuryButton, hierholzerButton,
+                fleuryButton,
+                hierholzerButton,
                 findButton
         );
 
@@ -149,18 +142,15 @@ public class GraphAlgorithmsApp extends Application {
         Button findButton = new Button("Найти Гамильтонов цикл");
         findButton.setOnAction(e -> {
             new Thread(() -> {
-                outputArea.appendText("Поиск Гамильтоновых циклов (метод перебора)...\n");
-                BackTracking hcb = new BackTracking(graph);
-                List<String> cycles = hcb.findHamiltonianCycle();
+                CycleSolver solver = CycleSolverFactory.createSolver("BackTrack", graph);
+                List<String> cycles = solver.findCycle();
 
                 javafx.application.Platform.runLater(() -> {
                     if (cycles.isEmpty()) {
                         outputArea.appendText("Гамильтоновы циклы не найдены\n");
                     } else {
                         outputArea.appendText("Найден Гамильтонов цикл: " +
-                                cycles.stream()
-                                        .map(Object::toString)
-                                        .collect(Collectors.joining(" -> ")) + "\n");
+                                cycles.stream().map(Object::toString).collect(Collectors.joining(" -> ")) + "\n");
                     }
                 });
             }).start();

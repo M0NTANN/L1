@@ -1,9 +1,10 @@
 package main.java.org.example.Appl.Algorithm.Euler;
 
+import main.java.org.example.Appl.Algorithm.CycleSolver;
 import main.java.org.example.Appl.Algorithm.Graph;
 import java.util.*;
 
-public class HierholzerAlgorithm {
+public class HierholzerAlgorithm implements CycleSolver {
     private final Graph workingGraph;
     private int remainingEdges;
     private final Map<String, Integer> edgeCounts;
@@ -43,7 +44,8 @@ public class HierholzerAlgorithm {
     //@ ensures workingGraph.hasEulerianCycle() && remainingEdges > 0 ==>
     //@         !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
     //@ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
-    public List<String> findEulerianCycle() {
+    @Override
+    public List<String> findCycle() {
         List<String> cycle = new ArrayList<>();
 
         if (workingGraph.hasEulerianCycle()) {

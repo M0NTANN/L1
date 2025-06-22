@@ -1,27 +1,24 @@
 package main.java.org.example.Appl.Algorithm.Euler;
+
+import main.java.org.example.Appl.Algorithm.CycleSolver;
 import main.java.org.example.Appl.Algorithm.Graph;
+
 import java.util.*;
 
-public class FleuryAlgorithm {
-    public final Graph workingGraph;
-    private final Map<String, List<String>> adj;
-    private final Map<String, Integer> edgeCounts;
+public class FleuryAlgorithm implements CycleSolver {
+    private final Graph workingGraph;
+    private final Map<String, List<String>> adj = new HashMap<>();
+    private final Map<String, Integer> edgeCounts = new HashMap<>();
     private int totalEdges;
 
-
-    //@ requires graph != null;
-    //@ ensures workingGraph != null && totalEdges >= 0;
     public FleuryAlgorithm(Graph graph) {
         this.workingGraph = graph.clone();
-        this.adj = new HashMap<>();
         for (String vertex : workingGraph.getVertices()) {
             adj.put(vertex, new ArrayList<>(workingGraph.getAdjacentVertices(vertex)));
         }
-        this.edgeCounts = new HashMap<>();
-        this.totalEdges = calculateEdges();
+        totalEdges = calculateEdges();
     }
 
-    //@ ensures \result == (\sum String v; edgeCounts.containsKey(v); edgeCounts.get(v)) / 2;
     private int calculateEdges() {
         int count = 0;
         for (Map.Entry<String, List<String>> entry : adj.entrySet()) {
@@ -31,11 +28,6 @@ public class FleuryAlgorithm {
         return count / 2;
     }
 
-    //@ requires u != null && v != null;
-    //@ requires adj.containsKey(u) && adj.containsKey(v);
-    //@ ensures edgeCounts.get(u) == \old(edgeCounts.get(u)) - 1;
-    //@ ensures edgeCounts.get(v) == \old(edgeCounts.get(v)) - 1;
-    //@ ensures totalEdges == \old(totalEdges) - 1;
     private void removeEdge(String u, String v) {
         adj.get(u).remove(v);
         adj.get(v).remove(u);
@@ -44,41 +36,27 @@ public class FleuryAlgorithm {
         totalEdges--;
     }
 
-    //@ requires u != null && v != null;
-    //@ requires adj.containsKey(u) && adj.containsKey(v);
-    //@ requires adj.get(u).contains(v);
-    //@ ensures \result == (countReachableVertices(u, new HashSet<String>()) != \old(countReachableVertices(u, new HashSet<String>())));
     private boolean isBridge(String u, String v) {
-        if (adj.get(u).size() == 1) {
-            return false;
-        }
-
+        if (adj.get(u).size() == 1) return false;
         removeEdge(u, v);
-
-        int countBefore = countReachableVerticesIterative(u);
+        int before = countReachableVertices(u);
         adj.get(u).add(v);
         adj.get(v).add(u);
         edgeCounts.put(u, edgeCounts.get(u) + 1);
         edgeCounts.put(v, edgeCounts.get(v) + 1);
         totalEdges++;
-
-        int countAfter = countReachableVerticesIterative(u);
-
-        return countBefore != countAfter;
+        int after = countReachableVertices(u);
+        return before != after;
     }
 
-    //@ requires start != null && visited != null;
-    //@ ensures \result >= 1;
-    private int countReachableVerticesIterative(String start) {
+    private int countReachableVertices(String start) {
         Set<String> visited = new HashSet<>();
         Deque<String> stack = new ArrayDeque<>();
         stack.push(start);
         int count = 0;
-
         while (!stack.isEmpty()) {
             String vertex = stack.pop();
-            if (!visited.contains(vertex)) {
-                visited.add(vertex);
+            if (visited.add(vertex)) {
                 count++;
                 for (String neighbor : adj.get(vertex)) {
                     if (!visited.contains(neighbor)) {
@@ -90,15 +68,10 @@ public class FleuryAlgorithm {
         return count;
     }
 
-    //@ ensures workingGraph.hasEulerianCycle() && totalEdges > 0 ==> !\result.isEmpty() && \result.get(0).equals(\result.get(\result.size()-1));
-    //@ ensures !workingGraph.hasEulerianCycle() ==> \result.isEmpty();
-    public List<String> findEulerianCycle() {
+    @Override
+    public List<String> findCycle() {
         List<String> cycle = new ArrayList<>();
-
-        if (workingGraph.hasEulerianCycle()) {
-            return cycle;
-        }
-
+        if (!workingGraph.hasEulerianCycle()) return cycle;
 
         Stack<String> stack = new Stack<>();
         String startVertex = adj.keySet().iterator().next();
@@ -106,35 +79,23 @@ public class FleuryAlgorithm {
 
         while (!stack.isEmpty()) {
             String current = stack.peek();
-
             if (edgeCounts.get(current) > 0) {
-                String nextVertex = null;
-                boolean foundNonBridge = false;
-
-                for (String neighbor : adj.get(current)) {
+                String next = null;
+                for (String neighbor : new ArrayList<>(adj.get(current))) {
                     if (!isBridge(current, neighbor)) {
-                        nextVertex = neighbor;
-                        foundNonBridge = true;
+                        next = neighbor;
                         break;
                     }
                 }
-
-                if (!foundNonBridge) {
-                    nextVertex = adj.get(current).getFirst();
-                }
-
-                stack.push(nextVertex);
-                removeEdge(current, nextVertex);
+                if (next == null) next = adj.get(current).getFirst();
+                stack.push(next);
+                removeEdge(current, next);
             } else {
                 cycle.add(stack.pop());
             }
         }
 
-        if (!cycle.isEmpty() && cycle.getFirst().equals(cycle.getLast()) && totalEdges == 0) {
-            Collections.reverse(cycle);
-            return cycle;
-        }
-
-        return new ArrayList<>();
+        Collections.reverse(cycle);
+        return cycle;
     }
 }
