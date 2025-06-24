@@ -6,7 +6,7 @@ import org.example.Appl.Algorithm.Hamilton.BackTracking;
 
 public class CycleSolverFactory {
     public static CycleSolver createSolver(String type, Graph graph) {
-        return switch (type.toLowerCase()) {
+        return switch (type) {
             case "BackTrack" -> new BackTracking(graph);
             case "Fluery" -> new FleuryAlgorithm(graph);
             case "Hierholzer" -> new HierholzerAlgorithm(graph);
